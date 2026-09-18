@@ -14,10 +14,21 @@ const CONFIG = {
      Заменить на точную ссылку из 2ГИС: «Поделиться» → «Скопировать ссылку». */
   mapUrl: 'https://2gis.kz/search/%D2%9A%D2%B1%D0%BB%D1%81%D0%B0%D1%80%D1%8B%2C%20205%20%D0%BA%D3%A9%D1%88%D0%B5%2083',
 
-  /* Куда отправлять ответы гостей.
-     Пока пусто — ответы сохраняются в браузере гостя.
-     Указать номер в формате 77011234567, чтобы ответ уходил в WhatsApp. */
-  whatsappPhone: '',
+  /* Куда уходят ответы гостей — Google Форма.
+     action  — ссылка вида https://docs.google.com/forms/d/e/<ID>/formResponse
+     entries — номера полей формы (entry.XXXXXXXXX).
+     Пока пусто, ответы только сохраняются в браузере гостя. */
+  googleForm: {
+    action: '',
+    entries: { name: '', attendance: '', guests: '' }
+  },
+
+  /* Сообщения формы. */
+  rsvpText: {
+    sending: 'Жіберілуде…',
+    submit: 'Растау',
+    noName: 'Есіміңізді жазыңызшы'
+  },
 
   /* startAt — с какой секунды трека начинать (75 = 1 мин 15 сек). */
   music: { startAt: 75, volume: 0.7, labelPlay: 'әуенді қосу', labelPause: 'әуенді өшіру' }
@@ -195,29 +206,51 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('rsvpForm');
   const thanks = document.getElementById('rsvpThanks');
   const errorMsg = document.getElementById('rsvpError');
+  const submitBtn = document.getElementById('rsvpSubmit');
+  const guestsField = document.getElementById('rsvpGuestsField');
+
+  /* Гостю, который не сможет прийти, поле «сколько человек» не нужно. */
+  const CANNOT_COME = 'Келе алмаймын';
 
   if (form) {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
+    const attendanceInputs = form.querySelectorAll('input[name="attendance"]');
 
-      const data = new FormData(form);
-      const name = String(data.get('name') || '').trim();
+    const syncGuestsField = () => {
+      const checked = form.querySelector('input[name="attendance"]:checked');
+      const coming = !checked || checked.value !== CANNOT_COME;
+      if (guestsField) guestsField.hidden = !coming;
+    };
 
-      if (!name) {
-        if (errorMsg) errorMsg.hidden = false;
-        document.getElementById('rsvpName').focus();
-        return;
-      }
-      if (errorMsg) errorMsg.hidden = true;
+    attendanceInputs.forEach((input) => input.addEventListener('change', syncGuestsField));
+    syncGuestsField();
 
-      const answer = {
-        name,
-        attendance: data.get('attendance'),
-        guests: data.get('guests'),
-        sentAt: new Date().toISOString()
-      };
+    const showError = (text) => {
+      if (!errorMsg) return;
+      errorMsg.textContent = text;
+      errorMsg.hidden = false;
+    };
 
-      /* Сохраняем ответ локально, чтобы он не потерялся. */
+    /* Отправка в Google Форму. Ответ приходит непрозрачным (mode: no-cors),
+       поэтому убедиться в доставке из браузера нельзя — страхуемся
+       копией в localStorage. */
+    const sendToGoogleForm = (answer) => {
+      const { action, entries } = CONFIG.googleForm;
+      if (!action || !entries.name) return Promise.resolve(false);
+
+      const params = new URLSearchParams();
+      params.append(entries.name, answer.name);
+      params.append(entries.attendance, answer.attendance);
+      if (entries.guests) params.append(entries.guests, answer.guests);
+
+      return fetch(action, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params.toString()
+      }).then(() => true).catch(() => false);
+    };
+
+    const saveLocally = (answer) => {
       try {
         const stored = JSON.parse(localStorage.getItem('danaRsvp') || '[]');
         stored.push(answer);
@@ -225,15 +258,45 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (err) {
         /* приватный режим браузера — просто пропускаем */
       }
+    };
 
-      /* Если указан номер — открываем WhatsApp с готовым текстом. */
-      if (CONFIG.whatsappPhone) {
-        const text = `Сауалнама — Дананың ұзату тойы\nАты-жөні: ${answer.name}\nЖауабы: ${answer.attendance}\nҚонақтар саны: ${answer.guests}`;
-        window.open(`https://wa.me/${CONFIG.whatsappPhone}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+    let sending = false;
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (sending) return;
+
+      const data = new FormData(form);
+      const name = String(data.get('name') || '').trim();
+
+      if (!name) {
+        showError(CONFIG.rsvpText.noName);
+        document.getElementById('rsvpName').focus();
+        return;
+      }
+      if (errorMsg) errorMsg.hidden = true;
+
+      const attendance = String(data.get('attendance') || '');
+      const answer = {
+        name,
+        attendance,
+        guests: attendance === CANNOT_COME ? '' : String(data.get('guests') || '1'),
+        sentAt: new Date().toISOString()
+      };
+
+      saveLocally(answer);
+
+      sending = true;
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = CONFIG.rsvpText.sending;
       }
 
-      form.hidden = true;
-      if (thanks) thanks.hidden = false;
+      sendToGoogleForm(answer).finally(() => {
+        sending = false;
+        form.hidden = true;
+        if (thanks) thanks.hidden = false;
+      });
     });
   }
 

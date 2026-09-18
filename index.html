@@ -167,13 +167,13 @@
           </label>
         </fieldset>
 
-        <label class="rsvp__field">
+        <label class="rsvp__field" id="rsvpGuestsField">
           <span class="rsvp__label">Қонақтар саны</span>
           <input type="number" name="guests" id="rsvpGuests" min="1" max="10" value="1" inputmode="numeric">
         </label>
 
-        <button type="submit" class="btn btn--submit">Растау</button>
-        <p class="rsvp__error" id="rsvpError" hidden>Есіміңізді жазыңызшы</p>
+        <button type="submit" class="btn btn--submit" id="rsvpSubmit">Растау</button>
+        <p class="rsvp__error" id="rsvpError" hidden role="alert"></p>
       </form>
 
       <div class="rsvp__thanks" id="rsvpThanks" hidden>

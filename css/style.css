@@ -58,6 +58,9 @@
 
 * { box-sizing: border-box; }
 
+/* Свои display: block/grid перебивают атрибут hidden — возвращаем ему силу. */
+[hidden] { display: none !important; }
+
 html { -webkit-text-size-adjust: 100%; }
 
 body {
