@@ -164,6 +164,16 @@ img { display: block; max-width: 100%; }
 .torn--bottom { top: 100%; margin-top: -20%; }
 .torn--top { bottom: 100%; margin-bottom: -20%; transform: scaleY(-1); }
 
+/* Вуаль над хиро-фото: в макете она уже и заходит на фото на 68px. */
+.torn--hero {
+  left: -20.2%;
+  width: 131.6%;
+  margin-bottom: -18%;
+  /* Бумага в макете светлее кремового фона страницы. */
+  background: #fdfdfb;
+  filter: blur(2.2px);
+}
+
 /* ---------- Хиро ---------- */
 
 .hero { position: relative; }
