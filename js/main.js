@@ -19,8 +19,12 @@ const CONFIG = {
      entries — номера полей формы (entry.XXXXXXXXX).
      Пока пусто, ответы только сохраняются в браузере гостя. */
   googleForm: {
-    action: '',
-    entries: { name: '', attendance: '', guests: '' }
+    action: 'https://docs.google.com/forms/d/e/1FAIpQLSctQs7ZIjb3O7rmZZM-8EugHEcgkVcznvuWmgCv7braQ00DUg/formResponse',
+    entries: {
+      name: 'entry.1839734041',
+      attendance: 'entry.1981387846',
+      guests: 'entry.1414147150'
+    }
   },
 
   /* Сообщения формы. */
@@ -230,25 +234,67 @@ document.addEventListener('DOMContentLoaded', () => {
       errorMsg.hidden = false;
     };
 
-    /* Отправка в Google Форму. Ответ приходит непрозрачным (mode: no-cors),
-       поэтому убедиться в доставке из браузера нельзя — страхуемся
-       копией в localStorage. */
-    const sendToGoogleForm = (answer) => {
+    /* Отправка в Google Форму.
+       Обычный fetch эта форма отклоняет (400) — Google принимает только
+       настоящую отправку формы. Поэтому подставляем скрытую форму и шлём
+       её в скрытый iframe: так запрос неотличим от отправки со страницы
+       самой Google Формы. Ответ iframe прочитать нельзя (чужой домен),
+       поэтому событие load — единственный признак, что запрос дошёл. */
+    const sendToGoogleForm = (answer) => new Promise((resolve) => {
       const { action, entries } = CONFIG.googleForm;
-      if (!action || !entries.name) return Promise.resolve(false);
+      if (!action || !entries.name) { resolve(false); return; }
 
-      const params = new URLSearchParams();
-      params.append(entries.name, answer.name);
-      params.append(entries.attendance, answer.attendance);
-      if (entries.guests) params.append(entries.guests, answer.guests);
+      const frame = document.createElement('iframe');
+      frame.name = 'rsvp-sink-' + Date.now();
+      frame.src = 'about:blank';
+      frame.hidden = true;
+      frame.setAttribute('aria-hidden', 'true');
+      frame.setAttribute('tabindex', '-1');
 
-      return fetch(action, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: params.toString()
-      }).then(() => true).catch(() => false);
-    };
+      const proxy = document.createElement('form');
+      proxy.method = 'POST';
+      proxy.action = action;
+      proxy.target = frame.name;
+      proxy.hidden = true;
+
+      const add = (name, value) => {
+        const field = document.createElement('input');
+        field.type = 'hidden';
+        field.name = name;
+        field.value = value;
+        proxy.appendChild(field);
+      };
+
+      add(entries.name, answer.name);
+      add(entries.attendance, answer.attendance);
+      /* Служебное поле вопроса с вариантами: без него ответ не принимается. */
+      add(entries.attendance + '_sentinel', '');
+      if (entries.guests) add(entries.guests, answer.guests);
+      add('fvv', '1');
+      add('pageHistory', '0');
+
+      let done = false;
+      const finish = (ok) => {
+        if (done) return;
+        done = true;
+        clearTimeout(timer);
+        proxy.remove();
+        setTimeout(() => frame.remove(), 0);
+        resolve(ok);
+      };
+
+      const timer = setTimeout(() => finish(false), 8000);
+
+      /* Первый load — это пустая страница about:blank, его пропускаем. */
+      frame.addEventListener('load', function onBlank() {
+        frame.removeEventListener('load', onBlank);
+        frame.addEventListener('load', () => finish(true), { once: true });
+        document.body.appendChild(proxy);
+        proxy.submit();
+      });
+
+      document.body.appendChild(frame);
+    });
 
     const saveLocally = (answer) => {
       try {
@@ -280,7 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const answer = {
         name,
         attendance,
-        guests: attendance === CANNOT_COME ? '' : String(data.get('guests') || '1'),
+        guests: attendance === CANNOT_COME ? '0' : String(data.get('guests') || '1'),
         sentAt: new Date().toISOString()
       };
 
