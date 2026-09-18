@@ -34,16 +34,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const audio = document.getElementById('bgMusic');
   const musicBtn = document.getElementById('musicBtn');
-  const musicLabel = document.getElementById('musicLabel');
+
 
   if (audio && musicBtn) {
     const START_AT = CONFIG.music.startAt || 0;
     audio.volume = CONFIG.music.volume;
 
     const setState = (playing) => {
+      const label = playing ? CONFIG.music.labelPause : CONFIG.music.labelPlay;
       musicBtn.classList.toggle('is-playing', playing);
       musicBtn.setAttribute('aria-pressed', String(playing));
-      musicLabel.textContent = playing ? CONFIG.music.labelPause : CONFIG.music.labelPlay;
+      musicBtn.setAttribute('aria-label', label);
+      musicBtn.setAttribute('title', label);
     };
 
     /* Перемотка на нужную секунду. Работает только после загрузки метаданных. */

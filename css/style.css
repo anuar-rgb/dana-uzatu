@@ -176,7 +176,7 @@ img { display: block; max-width: 100%; }
 
 /* ---------- Хиро ---------- */
 
-.hero { position: relative; }
+.hero { position: relative; padding-bottom: 10%; }
 
 .hero__photo {
   position: relative;
@@ -245,15 +245,54 @@ img { display: block; max-width: 100%; }
 .btn:active { transform: translateY(0); }
 .btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
 
-.btn--music {
+/* Кнопка музыки — круглая, всегда поверх страницы.
+   На широком экране прижимается к правому краю колонки, а не окна. */
+.music-fab {
+  position: fixed;
+  top: max(14px, env(safe-area-inset-top));
+  right: max(14px, calc(50% - var(--page-max) / 2 + 14px));
+  z-index: 50;
   display: flex;
-  margin: 11.4% auto 0;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--maroon);
+  color: var(--cream);
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(84, 0, 0, 0.32);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.btn__icon { display: flex; width: 20px; height: 20px; flex: none; }
-.btn__icon svg { width: 100%; height: 100%; }
+.music-fab:hover { transform: scale(1.06); box-shadow: 0 8px 26px rgba(84, 0, 0, 0.4); }
+.music-fab:active { transform: scale(0.97); }
+.music-fab:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
 
-.btn--music.is-playing .btn__icon { animation: pulse 1.6s ease-in-out infinite; }
+.music-fab__icon { display: flex; width: 24px; height: 24px; }
+.music-fab__icon svg { width: 100%; height: 100%; }
+
+/* Пока музыка выключена — расходящееся кольцо, чтобы кнопку заметили. */
+.music-fab::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--maroon);
+  animation: fab-ring 2.4s ease-out infinite;
+  pointer-events: none;
+}
+
+.music-fab.is-playing::after { animation: none; opacity: 0; }
+.music-fab.is-playing .music-fab__icon { animation: pulse 1.6s ease-in-out infinite; }
+
+@keyframes fab-ring {
+  0%   { transform: scale(1);   opacity: 0.55; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
 
 @keyframes pulse {
   0%, 100% { opacity: 1; transform: scale(1); }
@@ -516,5 +555,5 @@ img { display: block; max-width: 100%; }
 
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
-  .btn, .btn--music.is-playing .btn__icon { transition: none; animation: none; }
+  .btn, .music-fab, .music-fab::after, .music-fab .music-fab__icon { transition: none; animation: none; }
 }
