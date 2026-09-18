@@ -3,10 +3,30 @@
    Макет: Figma "QYZ UZATY" (430 × 4443)
    ============================================================ */
 
-/* Рукописный шрифт из макета. Лежит рядом с сайтом, Google Fonts его не отдаёт. */
+/* Шрифты из макета. Лежат рядом с сайтом — Google Fonts их не отдаёт. */
+
+/* Рукописные заголовки. */
 @font-face {
   font-family: 'KZ Vivaldi';
   src: url('../assets/fonts/KZ_Vivaldi_kz.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Основной текст приглашения. Юникейсный: строчные буквы рисуются заглавными. */
+@font-face {
+  font-family: 'KZ PF Monumenta Pro';
+  src: url('../assets/fonts/KZPFMonumentaPro-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Латиница «QYZ UZATY». */
+@font-face {
+  font-family: 'KZ RomulC';
+  src: url('../assets/fonts/KZ_RomulC.otf') format('opentype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -21,8 +41,11 @@
   --gold-soft: rgba(195, 155, 74, 0.35);
 
   --font-script: 'KZ Vivaldi', 'Bad Script', 'Segoe Script', cursive;
-  --font-serif: 'Cormorant Garamond', 'PT Serif', Georgia, serif;
+  --font-serif: 'KZ PF Monumenta Pro', 'Cormorant Garamond', 'PT Serif', Georgia, serif;
   --font-display: 'Monsieur La Doulaise', 'Bad Script', cursive;
+  --font-latin: 'KZ RomulC', 'Cormorant Garamond', Georgia, serif;
+  /* Для формы и цифр: Monumenta пишет строчные заглавными, читать неудобно. */
+  --font-ui: 'Cormorant Garamond', 'PT Serif', Georgia, serif;
 
   --fs-body: clamp(17px, 4.7vw, 20px);
   --fs-script: clamp(38px, 11vw, 48px);
@@ -79,7 +102,7 @@ img { display: block; max-width: 100%; }
 .caps {
   font-size: var(--fs-body);
   text-transform: uppercase;
-  letter-spacing: 0.045em;
+  letter-spacing: 0.012em;
   line-height: 1.5;
   margin: 0 0 14px;
   text-align: center;
@@ -87,7 +110,7 @@ img { display: block; max-width: 100%; }
 }
 
 .caps--lead { margin-top: 24px; }
-.caps--date { letter-spacing: 0.08em; margin-bottom: 4px; }
+.caps--date { letter-spacing: 0.05em; margin-bottom: 4px; }
 
 /* ---------- Секции ---------- */
 
@@ -172,6 +195,7 @@ img { display: block; max-width: 100%; }
 }
 
 .hero__kicker {
+  font-family: var(--font-latin);
   font-size: clamp(20px, 5.6vw, 24px);
   letter-spacing: 0.16em;
   text-align: right;
@@ -286,6 +310,8 @@ img { display: block; max-width: 100%; }
 }
 
 .calendar__cell {
+  font-family: var(--font-ui);
+  font-variant-numeric: lining-nums;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -296,6 +322,7 @@ img { display: block; max-width: 100%; }
 }
 
 .calendar__cell--head {
+  font-family: var(--font-serif);
   font-size: clamp(12px, 3.2vw, 13px);
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -353,6 +380,7 @@ img { display: block; max-width: 100%; }
 }
 
 .countdown__num {
+  font-family: var(--font-ui);
   font-size: clamp(24px, 7vw, 32px);
   font-weight: 600;
   line-height: 1;
@@ -394,6 +422,7 @@ img { display: block; max-width: 100%; }
 
 .rsvp__label {
   display: block;
+  font-family: var(--font-ui);
   font-size: clamp(13px, 3.6vw, 15px);
   text-transform: uppercase;
   letter-spacing: 0.07em;
@@ -409,7 +438,7 @@ img { display: block; max-width: 100%; }
   border: 1px solid var(--gold-soft);
   border-radius: 12px;
   background: var(--cream);
-  font-family: var(--font-serif);
+  font-family: var(--font-ui);
   font-size: var(--fs-body);
   color: var(--ink);
 }
@@ -421,6 +450,7 @@ img { display: block; max-width: 100%; }
 }
 
 .rsvp__option {
+  font-family: var(--font-ui);
   display: flex;
   align-items: center;
   gap: 10px;
@@ -437,6 +467,7 @@ img { display: block; max-width: 100%; }
 }
 
 .rsvp__error {
+  font-family: var(--font-ui);
   margin: 10px 0 0;
   font-size: 15px;
   color: var(--maroon);
