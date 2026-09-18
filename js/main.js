@@ -19,7 +19,8 @@ const CONFIG = {
      Указать номер в формате 77011234567, чтобы ответ уходил в WhatsApp. */
   whatsappPhone: '',
 
-  music: { labelPlay: 'әуенді қосу', labelPause: 'әуенді өшіру' }
+  /* startAt — с какой секунды трека начинать (75 = 1 мин 15 сек). */
+  music: { startAt: 75, volume: 0.7, labelPlay: 'әуенді қосу', labelPause: 'әуенді өшіру' }
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -36,23 +37,79 @@ document.addEventListener('DOMContentLoaded', () => {
   const musicLabel = document.getElementById('musicLabel');
 
   if (audio && musicBtn) {
+    const START_AT = CONFIG.music.startAt || 0;
+    audio.volume = CONFIG.music.volume;
+
     const setState = (playing) => {
       musicBtn.classList.toggle('is-playing', playing);
       musicBtn.setAttribute('aria-pressed', String(playing));
       musicLabel.textContent = playing ? CONFIG.music.labelPause : CONFIG.music.labelPlay;
     };
 
+    /* Перемотка на нужную секунду. Работает только после загрузки метаданных. */
+    const seekToStart = () => {
+      if (audio.readyState < 1) return false;
+      try {
+        audio.currentTime = START_AT;
+        return true;
+      } catch (err) {
+        return false;
+      }
+    };
+
+    /* Трек играет по кругу и каждый раз начинается с той же секунды. */
+    audio.addEventListener('ended', () => {
+      seekToStart();
+      audio.play().then(() => setState(true)).catch(() => setState(false));
+    });
+
+    /* Браузеры блокируют звук до первого действия пользователя.
+       Поэтому: пробуем включить сразу, а если не вышло — при первом
+       касании, клике или прокрутке страницы. */
+    const KICK_EVENTS = ['pointerdown', 'touchstart', 'keydown', 'scroll'];
+
+    function detachKick() {
+      KICK_EVENTS.forEach((name) => window.removeEventListener(name, kick));
+    }
+
+    function kick(e) {
+      if (e && e.target && musicBtn.contains(e.target)) return;
+      if (!audio.paused) { detachKick(); return; }
+      if (audio.currentTime < 1) seekToStart();
+      audio.play().then(() => {
+        setState(true);
+        detachKick();
+      }).catch(() => {});
+    }
+
+    KICK_EVENTS.forEach((name) => window.addEventListener(name, kick, { passive: true }));
+
+    const autostart = () => {
+      seekToStart();
+      audio.play().then(() => {
+        setState(true);
+        detachKick();
+      }).catch(() => setState(false));
+    };
+
+    if (audio.readyState >= 1) {
+      autostart();
+    } else {
+      audio.addEventListener('loadedmetadata', autostart, { once: true });
+    }
+
     musicBtn.addEventListener('click', () => {
       if (audio.paused) {
-        audio.volume = 0.7;
-        audio.play().then(() => setState(true)).catch(() => setState(false));
+        if (audio.currentTime < 1) seekToStart();
+        audio.play().then(() => {
+          setState(true);
+          detachKick();
+        }).catch(() => setState(false));
       } else {
         audio.pause();
         setState(false);
       }
     });
-
-    audio.addEventListener('ended', () => setState(false));
   }
 
   /* ===== КАЛЕНДАРЬ ===== */
