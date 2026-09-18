@@ -54,7 +54,6 @@
 
   --page-max: 480px;
   --pad: clamp(20px, 6vw, 28px);
-  --torn-h: 58px;
 }
 
 * { box-sizing: border-box; }
@@ -148,19 +147,22 @@ img { display: block; max-width: 100%; }
 
 /* ---------- Рваный край бумаги ---------- */
 
+/* Геометрия из макета: картинка шире фрейма (142%), своих пропорций,
+   и заходит на фото на 86px — это 20% ширины страницы. */
 .torn {
   position: absolute;
-  left: -1px;
-  right: -1px;
-  height: var(--torn-h);
+  left: -30.7%;
+  width: 142.1%;
+  aspect-ratio: 611 / 341;
   background: var(--cream);
   pointer-events: none;
-  -webkit-mask: url(../assets/images/torn-h.png) no-repeat center top / 100% 240px;
-  mask: url(../assets/images/torn-h.png) no-repeat center top / 100% 240px;
+  filter: blur(1.8px);
+  -webkit-mask: url(../assets/images/torn-h.png) no-repeat center / 100% 100%;
+  mask: url(../assets/images/torn-h.png) no-repeat center / 100% 100%;
 }
 
-.torn--bottom { bottom: -1px; }
-.torn--top    { top: -1px; transform: scaleY(-1); }
+.torn--bottom { top: 100%; margin-top: -20%; }
+.torn--top { bottom: 100%; margin-bottom: -20%; transform: scaleY(-1); }
 
 /* ---------- Хиро ---------- */
 
@@ -180,27 +182,27 @@ img { display: block; max-width: 100%; }
 }
 
 .hero__title {
-  padding: 0 var(--pad);
-  margin-top: -18px;
+  /* Отступы в процентах — повторяют пропорции макета на любой ширине. */
+  padding: 0;
+  margin-top: -3.7%;
 }
 
 .hero__name {
   font-family: var(--font-display);
-  font-size: clamp(82px, 24vw, 104px);
+  font-size: clamp(76px, 22.3vw, 107px);
   font-weight: 400;
-  line-height: 0.95;
+  line-height: 1.93;
   margin: 0;
   text-align: left;
-  padding-left: clamp(4px, 3vw, 16px);
+  padding-left: 10%;
 }
 
 .hero__kicker {
   font-family: var(--font-latin);
-  font-size: clamp(20px, 5.6vw, 24px);
-  letter-spacing: 0.16em;
+  font-size: clamp(20px, 5.6vw, 27px);
+  letter-spacing: 0;
   text-align: right;
-  margin: 2px 0 0;
-  padding-right: clamp(4px, 3vw, 16px);
+  margin: -11.4% 9.3% 0 0;
   font-weight: 400;
 }
 
@@ -234,7 +236,7 @@ img { display: block; max-width: 100%; }
 
 .btn--music {
   display: flex;
-  margin: 26px auto 0;
+  margin: 11.4% auto 0;
 }
 
 .btn__icon { display: flex; width: 20px; height: 20px; flex: none; }
