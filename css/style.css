@@ -1,0 +1,467 @@
+/* ============================================================
+   Дана — Ұзату той
+   Макет: Figma "QYZ UZATY" (430 × 4443)
+   ============================================================ */
+
+:root {
+  --cream: #f9f6eb;
+  --cream-dark: #efeade;
+  --maroon: #540000;
+  --ink: #141010;
+  --gold: #c39b4a;
+  --gold-soft: rgba(195, 155, 74, 0.35);
+
+  --font-script: 'Bad Script', 'Segoe Script', cursive;
+  --font-serif: 'Cormorant Garamond', 'PT Serif', Georgia, serif;
+  --font-display: 'Monsieur La Doulaise', 'Bad Script', cursive;
+
+  --fs-body: clamp(17px, 4.7vw, 20px);
+  --fs-script: clamp(38px, 11vw, 48px);
+  --fs-script-lg: clamp(50px, 15vw, 64px);
+  --fs-script-sm: clamp(26px, 7.6vw, 32px);
+
+  --page-max: 480px;
+  --pad: clamp(20px, 6vw, 28px);
+  --torn-h: 58px;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--cream-dark);
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: var(--fs-body);
+  line-height: 1.45;
+  overflow-x: hidden;
+}
+
+.page {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  background: var(--cream);
+  position: relative;
+  overflow: hidden;
+}
+
+@media (min-width: 560px) {
+  .page { box-shadow: 0 0 60px rgba(84, 0, 0, 0.12); }
+}
+
+img { display: block; max-width: 100%; }
+
+/* ---------- Типографика ---------- */
+
+.script {
+  font-family: var(--font-script);
+  font-size: var(--fs-script);
+  font-weight: 400;
+  line-height: 1.25;
+  margin: 0 0 18px;
+  text-align: center;
+}
+
+.script--lg { font-size: var(--fs-script-lg); margin: 6px 0 20px; }
+.script--light { color: var(--cream); }
+
+.caps {
+  font-size: var(--fs-body);
+  text-transform: uppercase;
+  letter-spacing: 0.045em;
+  line-height: 1.5;
+  margin: 0 0 14px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.caps--lead { margin-top: 24px; }
+.caps--date { letter-spacing: 0.08em; margin-bottom: 4px; }
+
+/* ---------- Секции ---------- */
+
+.section {
+  position: relative;
+  padding: clamp(48px, 13vw, 64px) var(--pad);
+  text-align: center;
+  z-index: 1;
+}
+
+.section--greeting { padding-top: clamp(32px, 9vw, 44px); }
+.section--invite   { padding-top: 0; }
+.section--hosts    { padding-bottom: clamp(36px, 10vw, 48px); }
+.section--date     { padding-bottom: clamp(40px, 11vw, 56px); }
+
+.divider {
+  width: min(78%, 320px);
+  height: auto;
+  margin: 26px auto 0;
+  opacity: 0.95;
+}
+
+.ornament {
+  position: absolute;
+  width: clamp(260px, 72vw, 340px);
+  height: auto;
+  opacity: 0.55;
+  pointer-events: none;
+  user-select: none;
+  z-index: -1;
+}
+
+.ornament--left  { left: -40%; top: 6%; transform: scaleX(-1); }
+.ornament--right { right: -40%; top: 18%; }
+
+/* ---------- Рваный край бумаги ---------- */
+
+.torn {
+  position: absolute;
+  left: -1px;
+  right: -1px;
+  height: var(--torn-h);
+  background: var(--cream);
+  pointer-events: none;
+  -webkit-mask: url(../assets/images/torn-h.png) no-repeat center top / 100% 240px;
+  mask: url(../assets/images/torn-h.png) no-repeat center top / 100% 240px;
+}
+
+.torn--bottom { bottom: -1px; }
+.torn--top    { top: -1px; transform: scaleY(-1); }
+
+/* ---------- Хиро ---------- */
+
+.hero { position: relative; }
+
+.hero__photo {
+  position: relative;
+  aspect-ratio: 430 / 645;
+  overflow: hidden;
+}
+
+.hero__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 22%;
+}
+
+.hero__title {
+  padding: 0 var(--pad);
+  margin-top: -18px;
+}
+
+.hero__name {
+  font-family: var(--font-display);
+  font-size: clamp(82px, 24vw, 104px);
+  font-weight: 400;
+  line-height: 0.95;
+  margin: 0;
+  text-align: left;
+  padding-left: clamp(4px, 3vw, 16px);
+}
+
+.hero__kicker {
+  font-size: clamp(20px, 5.6vw, 24px);
+  letter-spacing: 0.16em;
+  text-align: right;
+  margin: 2px 0 0;
+  padding-right: clamp(4px, 3vw, 16px);
+  font-weight: 400;
+}
+
+/* ---------- Кнопки ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 202px;
+  min-height: 44px;
+  padding: 10px 22px;
+  border: 0;
+  border-radius: 36px;
+  background: var(--maroon);
+  color: var(--cream);
+  font-family: var(--font-serif);
+  font-size: clamp(17px, 4.6vw, 20px);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn:hover  { box-shadow: 0 8px 22px rgba(84, 0, 0, 0.28); transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+.btn--music {
+  display: flex;
+  margin: 26px auto 0;
+}
+
+.btn__icon { display: flex; width: 20px; height: 20px; flex: none; }
+.btn__icon svg { width: 100%; height: 100%; }
+
+.btn--music.is-playing .btn__icon { animation: pulse 1.6s ease-in-out infinite; }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.6; transform: scale(0.88); }
+}
+
+.btn--map {
+  position: relative;
+  margin-top: 30px;
+  padding-left: 40px;
+}
+
+.btn__2gis {
+  position: absolute;
+  left: -18px;
+  top: -16px;
+  width: 42px;
+  height: 42px;
+  transform: rotate(-21deg);
+}
+
+.btn--submit { margin-top: 10px; width: 100%; }
+
+/* ---------- Той иелері ---------- */
+
+.hosts { margin-bottom: 22px; }
+.hosts .caps { margin-bottom: 4px; }
+
+/* ---------- Фото-блоки ---------- */
+
+.photo {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 430 / 538;
+  overflow: hidden;
+}
+
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------- Календарь ---------- */
+
+.calendar {
+  margin: 28px auto 0;
+  max-width: 344px;
+  padding: 20px 16px 18px;
+  border: 1px solid var(--gold-soft);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 10px 30px rgba(84, 0, 0, 0.07);
+}
+
+.calendar__month {
+  font-family: var(--font-script);
+  font-size: clamp(24px, 6.4vw, 28px);
+  margin: 0 0 14px;
+  color: var(--maroon);
+}
+
+.calendar__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.calendar__cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  font-size: clamp(14px, 3.8vw, 16px);
+  letter-spacing: 0.02em;
+  border-radius: 50%;
+}
+
+.calendar__cell--head {
+  font-size: clamp(12px, 3.2vw, 13px);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(20, 16, 16, 0.55);
+  font-weight: 600;
+}
+
+.calendar__cell--weekend { color: var(--maroon); }
+.calendar__cell--empty { visibility: hidden; }
+
+.calendar__cell--target {
+  position: relative;
+  background: var(--maroon);
+  color: var(--cream);
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(84, 0, 0, 0.35);
+}
+
+.calendar__cell--target::after {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+}
+
+/* ---------- Кері санақ ---------- */
+
+.countdown {
+  position: relative;
+  background: var(--maroon);
+  color: var(--cream);
+  padding: clamp(32px, 9vw, 42px) var(--pad);
+  text-align: center;
+}
+
+.countdown .script { margin-bottom: 20px; font-size: var(--fs-script-sm); }
+
+.countdown__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(6px, 2.5vw, 12px);
+  max-width: 340px;
+  margin: 0 auto;
+}
+
+.countdown__cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 12px 4px;
+  border: 1px solid rgba(249, 246, 235, 0.28);
+  border-radius: 12px;
+}
+
+.countdown__num {
+  font-size: clamp(24px, 7vw, 32px);
+  font-weight: 600;
+  line-height: 1;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.countdown__label {
+  font-size: clamp(11px, 3vw, 13px);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.8;
+}
+
+.countdown__done {
+  font-family: var(--font-script);
+  font-size: var(--fs-script-sm);
+  margin: 16px 0 0;
+}
+
+/* ---------- Сауалнама ---------- */
+
+.rsvp-card {
+  margin: 26px auto 0;
+  max-width: 356px;
+  padding: clamp(22px, 6vw, 28px);
+  border: 1px solid var(--gold-soft);
+  border-radius: 34px;
+  background: rgba(255, 255, 255, 0.55);
+  box-shadow: 0 14px 40px rgba(84, 0, 0, 0.09);
+  text-align: left;
+}
+
+.rsvp__field {
+  display: block;
+  margin: 0 0 18px;
+  padding: 0;
+  border: 0;
+}
+
+.rsvp__label {
+  display: block;
+  font-size: clamp(13px, 3.6vw, 15px);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: rgba(20, 16, 16, 0.6);
+  margin-bottom: 7px;
+  padding: 0;
+}
+
+.rsvp input[type="text"],
+.rsvp input[type="number"] {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid var(--gold-soft);
+  border-radius: 12px;
+  background: var(--cream);
+  font-family: var(--font-serif);
+  font-size: var(--fs-body);
+  color: var(--ink);
+}
+
+.rsvp input:focus {
+  outline: none;
+  border-color: var(--maroon);
+  box-shadow: 0 0 0 3px rgba(84, 0, 0, 0.09);
+}
+
+.rsvp__option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 9px;
+  font-size: clamp(15px, 4.1vw, 17px);
+  cursor: pointer;
+}
+
+.rsvp__option input {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--maroon);
+}
+
+.rsvp__error {
+  margin: 10px 0 0;
+  font-size: 15px;
+  color: var(--maroon);
+  text-align: center;
+}
+
+.rsvp__thanks { text-align: center; }
+.rsvp__thanks .script { font-size: var(--fs-script-sm); margin-bottom: 10px; }
+.rsvp__thanks .caps { margin-bottom: 0; }
+
+/* ---------- Футер ---------- */
+
+.footer {
+  padding: clamp(44px, 12vw, 60px) var(--pad) clamp(52px, 14vw, 68px);
+  text-align: center;
+}
+
+.footer .divider { margin-bottom: 26px; }
+.footer .script { font-size: var(--fs-script-sm); margin: 0; }
+
+/* ---------- Появление при прокрутке ---------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.75s ease, transform 0.75s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .btn, .btn--music.is-playing .btn__icon { transition: none; animation: none; }
+}

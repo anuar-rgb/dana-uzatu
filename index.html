@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Дана — Ұзату той</title>
+<meta name="description" content="Дананың ұзату тойына шақыру. 17 қазан 2026, сағат 12:00, Құлсары қаласы, 205 көше, 83 үй.">
+<meta name="theme-color" content="#f9f6eb">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://anuar-rgb.github.io/dana-uzatu/">
+<meta property="og:title" content="Дананың ұзату тойына шақыру">
+<meta property="og:description" content="17 қазан 2026, сағат 12:00 · Құлсары қаласы, 205 көше, 83 үй. Ақ дастарханымыздың қадірлі қонағы болуға шақырамыз!">
+<meta property="og:image" content="https://anuar-rgb.github.io/dana-uzatu/assets/images/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="kk_KZ">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Дананың ұзату тойына шақыру">
+<meta name="twitter:description" content="17 қазан 2026, сағат 12:00 · Құлсары қаласы, 205 көше, 83 үй.">
+<meta name="twitter:image" content="https://anuar-rgb.github.io/dana-uzatu/assets/images/og-image.jpg">
+
+<link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bad+Script&family=Cormorant+Garamond:wght@400;500;600;700&family=Monsieur+La+Doulaise&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ===== ХИРО ===== -->
+  <header class="hero">
+    <div class="hero__photo">
+      <img src="assets/images/hero.png" alt="Дана — ұзату тойының иесі" width="1024" height="1536" fetchpriority="high">
+      <div class="torn torn--bottom" aria-hidden="true"></div>
+    </div>
+
+    <div class="hero__title">
+      <h1 class="hero__name">Dana</h1>
+      <p class="hero__kicker">QYZ UZATY</p>
+    </div>
+
+    <button type="button" class="btn btn--music" id="musicBtn" aria-pressed="false">
+      <span class="btn__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle>
+        </svg>
+      </span>
+      <span class="btn__label" id="musicLabel">әуенді қосу</span>
+    </button>
+  </header>
+
+  <!-- ===== ҚҰРМЕТТІ ===== -->
+  <section class="section section--greeting reveal">
+    <img class="ornament ornament--left" src="assets/images/ornament-round.png" alt="" aria-hidden="true">
+    <h2 class="script">Құрметті</h2>
+    <p class="caps caps--lead">
+      Ағайын-туыс, бауырлар,<br>
+      құда-жекжат,<br>
+      нағашы-жиен, бөлелер,<br>
+      құрбы-құрдас,<br>
+      әріптестер, көршілер!
+    </p>
+  </section>
+
+  <!-- ===== ШАҚЫРУ ===== -->
+  <section class="section section--invite reveal">
+    <p class="caps">Сіздерді<br>аяулы қызымыз</p>
+    <p class="script script--lg">Дананың</p>
+    <p class="caps">
+      Ұзату тойына арналған ақ<br>
+      дастарханымыздың<br>
+      қадірлі қонағы болуға<br>
+      шақырамыз
+    </p>
+    <img class="divider" src="assets/images/divider.png" alt="" aria-hidden="true">
+  </section>
+
+  <!-- ===== ТОЙ ИЕЛЕРІ ===== -->
+  <section class="section section--hosts reveal">
+    <img class="ornament ornament--right" src="assets/images/ornament-round.png" alt="" aria-hidden="true">
+    <h2 class="script">Той иелері</h2>
+    <div class="hosts">
+      <p class="caps">Атасы (Егізбай)</p>
+      <p class="caps">Әжесі Аққалаш</p>
+    </div>
+    <div class="hosts">
+      <p class="caps">Ата-анасы</p>
+      <p class="caps">Қолқанат — Сақыпжамал</p>
+    </div>
+  </section>
+
+  <!-- ===== ФОТО ===== -->
+  <figure class="photo reveal">
+    <img src="assets/images/photo-braid.png" alt="Ұзату тойының дәстүрі" width="736" height="920" loading="lazy">
+    <div class="torn torn--top" aria-hidden="true"></div>
+    <div class="torn torn--bottom" aria-hidden="true"></div>
+  </figure>
+
+  <!-- ===== ТОЙ САЛТАНАТЫ ===== -->
+  <section class="section section--date reveal">
+    <h2 class="script">Той салтанаты:</h2>
+    <p class="caps caps--date">17 қазан 2026</p>
+    <p class="caps caps--date">сағат 12:00</p>
+
+    <div class="calendar" id="calendar">
+      <p class="calendar__month" id="calendarMonth">Қазан 2026</p>
+      <div class="calendar__grid" id="calendarGrid"></div>
+    </div>
+  </section>
+
+  <!-- ===== ФОТО ===== -->
+  <figure class="photo reveal">
+    <img src="assets/images/photo-hands.png" alt="Ұлттық әшекей бұйымдар" width="960" height="1200" loading="lazy">
+    <div class="torn torn--top" aria-hidden="true"></div>
+    <div class="torn torn--bottom" aria-hidden="true"></div>
+  </figure>
+
+  <!-- ===== МЕКЕН-ЖАЙ ===== -->
+  <section class="section section--address reveal">
+    <h2 class="script">Мекен-жайымыз:</h2>
+    <p class="caps">Құлсары қаласы,<br>205 көше, 83 үй</p>
+    <a class="btn btn--map" id="mapBtn" href="#" target="_blank" rel="noopener noreferrer">
+      <img class="btn__2gis" src="assets/images/icon-2gis.png" alt="" aria-hidden="true" width="300" height="300">
+      <span class="btn__label">картаны ашу</span>
+    </a>
+  </section>
+
+  <!-- ===== КЕРІ САНАҚ ===== -->
+  <section class="countdown reveal">
+    <h2 class="script script--light">Той салтанатына дейін</h2>
+    <div class="countdown__grid" id="countdown">
+      <div class="countdown__cell"><span class="countdown__num" id="cdDays">—</span><span class="countdown__label">күн</span></div>
+      <div class="countdown__cell"><span class="countdown__num" id="cdHours">—</span><span class="countdown__label">сағат</span></div>
+      <div class="countdown__cell"><span class="countdown__num" id="cdMinutes">—</span><span class="countdown__label">минут</span></div>
+      <div class="countdown__cell"><span class="countdown__num" id="cdSeconds">—</span><span class="countdown__label">секунд</span></div>
+    </div>
+    <p class="countdown__done" id="countdownDone" hidden>Той басталды! Қош келдіңіздер!</p>
+  </section>
+
+  <!-- ===== САУАЛНАМА ===== -->
+  <section class="section section--rsvp reveal">
+    <h2 class="script">Сауалнама</h2>
+    <p class="caps">тойға қатысуыңызды<br>растауды сұраймыз</p>
+
+    <div class="rsvp-card">
+      <form class="rsvp" id="rsvpForm" novalidate>
+        <label class="rsvp__field">
+          <span class="rsvp__label">Аты-жөніңіз</span>
+          <input type="text" name="name" id="rsvpName" required autocomplete="name" placeholder="Есіміңізді жазыңыз">
+        </label>
+
+        <fieldset class="rsvp__field rsvp__field--radio">
+          <legend class="rsvp__label">Тойға келесіз бе?</legend>
+          <label class="rsvp__option">
+            <input type="radio" name="attendance" value="Иә, келемін" checked>
+            <span>Иә, қуанышпен келемін</span>
+          </label>
+          <label class="rsvp__option">
+            <input type="radio" name="attendance" value="Жұбайыммен келемін">
+            <span>Жұбайыммен келемін</span>
+          </label>
+          <label class="rsvp__option">
+            <input type="radio" name="attendance" value="Келе алмаймын">
+            <span>Өкінішке орай, келе алмаймын</span>
+          </label>
+        </fieldset>
+
+        <label class="rsvp__field">
+          <span class="rsvp__label">Қонақтар саны</span>
+          <input type="number" name="guests" id="rsvpGuests" min="1" max="10" value="1" inputmode="numeric">
+        </label>
+
+        <button type="submit" class="btn btn--submit">Растау</button>
+        <p class="rsvp__error" id="rsvpError" hidden>Есіміңізді жазыңызшы</p>
+      </form>
+
+      <div class="rsvp__thanks" id="rsvpThanks" hidden>
+        <p class="script">Рақмет!</p>
+        <p class="caps">Жауабыңыз қабылданды.<br>Сізді тойда күтеміз!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ФУТЕР ===== -->
+  <footer class="footer reveal">
+    <img class="divider" src="assets/images/divider.png" alt="" aria-hidden="true">
+    <p class="script">Қуанышымыздың<br>қадірменді қонағы<br>болыңыздар!</p>
+  </footer>
+
+</div>
+
+<audio id="bgMusic" src="assets/music/kazak-kyzy.mp3" loop preload="none"></audio>
+
+<script src="js/main.js"></script>
+</body>
+</html>
