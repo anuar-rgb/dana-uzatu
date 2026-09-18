@@ -132,18 +132,22 @@ img { display: block; max-width: 100%; }
   opacity: 0.95;
 }
 
+/* В макете орнамент — картинка во всю ширину страницы, повёрнутая
+   и размытая; видна её часть, остальное уходит за край. */
 .ornament {
   position: absolute;
-  width: clamp(260px, 72vw, 340px);
+  width: 100%;
   height: auto;
-  opacity: 0.55;
+  opacity: 0.9;
+  filter: blur(2.6px);
   pointer-events: none;
   user-select: none;
   z-index: -1;
 }
 
-.ornament--left  { left: -40%; top: 6%; transform: scaleX(-1); }
-.ornament--right { right: -40%; top: 18%; }
+.ornament--left  { left: -34.4%; top: -6%; transform: rotate(25.65deg); }
+.ornament--right { left: 31%;    top: 8%;  transform: rotate(145.19deg); }
+.ornament--date  { left: -25%;   top: 6%;  transform: rotate(-27.83deg); }
 
 /* ---------- Рваный край бумаги ---------- */
 
